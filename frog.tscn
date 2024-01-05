@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dbghrjcp418kr"]
+[gd_scene load_steps=25 format=3 uid="uid://dbghrjcp418kr"]
 
 [ext_resource type="Texture2D" uid="uid://7dlxapou3trl" path="res://Sunny-land-files/Graphical Assets/spritesheets/enemy-deadth.png" id="1_64keb"]
 [ext_resource type="Texture2D" uid="uid://dt4cmf3p0gmuc" path="res://Sunny-land-files/Graphical Assets/sprites/frog/idle/frog-idle-1.png" id="1_eihx6"]
@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cuu7yyjb2hgkw" path="res://Sunny-land-files/Graphical Assets/sprites/frog/jump/frog-jump-2.png" id="6_3yb42"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jqkei"]
-size = Vector2(21, 17)
+size = Vector2(21, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_10b8k"]
 atlas = ExtResource("1_64keb")
@@ -81,7 +81,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lay63")
 }],
-"loop": true,
+"loop": false,
 "name": &"Death",
 "speed": 5.0
 }, {
@@ -132,11 +132,14 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_770dm"]
 radius = 192.042
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bvcxu"]
+size = Vector2(17, 18)
+
 [node name="Frog" type="CharacterBody2D"]
 script = ExtResource("1_rc2f2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, -8.5)
+position = Vector2(0.5, -8)
 shape = SubResource("RectangleShape2D_jqkei")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -146,10 +149,19 @@ animation = &"Idle"
 metadata/_edit_lock_ = true
 
 [node name="PlayerDetection" type="Area2D" parent="."]
+visible = false
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
 position = Vector2(0, -9)
 shape = SubResource("CircleShape2D_770dm")
 
+[node name="PlayerDeath" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDeath"]
+position = Vector2(0.5, -9)
+shape = SubResource("RectangleShape2D_bvcxu")
+
 [connection signal="body_entered" from="PlayerDetection" to="." method="_on_player_detection_body_entered"]
 [connection signal="body_exited" from="PlayerDetection" to="." method="_on_player_detection_body_exited"]
+[connection signal="body_entered" from="PlayerDeath" to="." method="_on_player_death_body_entered"]
